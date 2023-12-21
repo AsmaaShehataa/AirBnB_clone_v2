@@ -3,17 +3,17 @@
 import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, INTEGER, String, ForeignKey, Table, Float
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base, relationship   
 
 
-# presentation of Many to Many DB
+#presentation of Many to Many DB 
 place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60), ForeignKey('places.id'),
-                             primary_key=True, nullable=False),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'),
-                             primary_key=True, nullable=False)
-                      )
+             Column('place_id', String(60), ForeignKey('places.id'),
+                 primary_key=True, nullable=False),
+             Column('amenity_id', String(60),
+                 ForeignKey('amenities.id'),
+                 primary_key=True, nullable=False)
+             )
 
 
 class Place(BaseModel, Base):
@@ -34,7 +34,7 @@ class Place(BaseModel, Base):
         amenities (list): A list of amenities available in the place.
     """
 
-    _tablename_ = 'places'
+    __tablename__ = 'places'
 
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -55,8 +55,10 @@ class Place(BaseModel, Base):
     @property
     def reviews(self):
         """Getter method for the reviews associated with the place.
+
         Returns:
-        list: A list of Review objects.
+            list: A list of Review objects.
+
         """
         review_list = []
         review_dict = models.storage.all(models.Review)
