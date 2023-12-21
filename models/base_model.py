@@ -26,7 +26,7 @@ class BaseModel:
                 if k == 'created_at' or k == 'updated_at':
                     setattr(self, k, datetime.strptime(v,
                                                        '%Y-%m-%dT%H:%M:%S.%f'))
-                elif k != '__class__':
+                elif k != '__class__'and k != "_sa_instance_state":
                     setattr(self, k, v)
             if 'id' not in kwargs:
                 self.id = str(uuid.uuid4())
@@ -39,7 +39,12 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        dict_repr = self.__dict__.copy()  # create a copy of the dictionary
+        if '_sa_instance_state' in dict_repr:
+            dict_repr.pop('_sa_instance_state')  # remove _sa_instance_state from the dictionary
+        dict_repr_str = str(dict_repr)  # convert the dictionary to a string
+        dict_repr_str = dict_repr_str.replace('["', '[', 1).replace('"]', ']', 1)  # remove the double quotation between the first two square brackets
+        return '[{}] ({}) {}'.format(cls, self.id, dict_repr_str)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
@@ -51,15 +56,21 @@ class BaseModel:
     def to_dict(self):
         """Convert instance into dict format"""
         dict = {}
-        dict.update(self.__dict__)
+        dict.update(self.__dict__) 
         dict.update(
             {'__class__': (
                 str(type(self)).split('.')[-1]
                 ).split('\'')[0]})
-        dict['created_at'] = self.created_at.isoformat()
-        dict['updated_at'] = self.updated_at.isoformat()
+        if isinstance(self.created_at, datetime):
+            dict['created_at'] = self.created_at.isoformat()
+        else:
+            dict['created_at'] = self.created_at
+        if isinstance(self.updated_at, datetime):
+            dict['updated_at'] = self.updated_at.isoformat()
+        else:
+            dict['updated_at'] = self.updated_at
         if '_sa_instance_state' in dict.keys():
-            del dict['_sa_instance_state']
+            dict.pop('_sa_instance_state')
         return dict
 
     def delete(self):
