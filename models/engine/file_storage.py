@@ -59,11 +59,17 @@ class FileStorage:
 
 
     def delete(self, obj=None):
-        if obj is None:
-            pass
-        else:
-            del self.__objects[
-                type(obj).__name__ + "." + obj.id]
+            """
+            Deletes an object from the storage.
+
+            Args:
+                obj: The object to be deleted. If None, no action is taken.
+            """
+            if obj is None:
+                pass
+            else:
+                del self.__objects[
+                    type(obj).__name__ + "." + obj.id]
 
     def close(self):
         """ calls reload()
