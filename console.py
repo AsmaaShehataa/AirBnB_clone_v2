@@ -124,8 +124,7 @@ class HBNBCommand(cmd.Cmd):
                 attr_split = attr.split('=')
                 attr_split[1] = eval(attr_split[1])
                 attr_split[1] = attr_split[1].replace("_", " ").replace(
-                    '"', '\\"') if isinstance(attr_split[1],
-                                              str) else attr_split[1]
+                    '"', '\\"') if isinstance(attr_split[1], str) else attr_split[1]
                 new_attrs[attr_split[0]] = attr_split[1]
         except SyntaxError:
             print("** class name missing **")
@@ -272,10 +271,9 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # first determine if new_attrs or args
-        if '{' in args[2] and '}' in args[2]\
-                and type(eval(args[2])) is dict:
+        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
             new_attrs = eval(args[2])
-            args = []
+            args = []  # reformat new_attrs into list, ex: [<name>, <value>, ...]
             for k, v in new_attrs.items():
                 args.append(k)
                 args.append(v)
@@ -328,7 +326,6 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
-
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
