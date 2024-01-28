@@ -16,10 +16,31 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
     if getenv("HBNB_TYPE_STORAGE") == "db":
         cities = relationship("City", backref="state", cascade="delete")
+    # else:
+    #     @property
+    #     def cities(self):
+    #         """Getter for cities"""
+    #         from models import storage
+    #         return [ct for ct in storage.all(City).values()
+    #                 if ct.state_id == self.id]
     else:
+        name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes State"""
+        super().__init__(*args, **kwargs)
+
+    if models.storage_t != "db":
         @property
         def cities(self):
-            """Getter for cities"""
+            """getter for cities"""
             from models import storage
-            return [ct for ct in storage.all(City).values()
-                    if ct.state_id == self.id]
+            from models.city import City
+            city_list = []
+            all_cities = models.storage.all(City)
+            for city in storage.all(City).values():
+                if city.state_id == self.id:
+                    city_list.append(city)
+            return city_list
+
+
