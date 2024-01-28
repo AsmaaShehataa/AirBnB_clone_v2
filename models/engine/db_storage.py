@@ -85,16 +85,16 @@ class DBStorage:
         Session = scoped_session(db_session)
         self.__session = Session()
 
-    # def delete(self, obj=None):
-    #     """
-    #     Deletes an object from the database.
+    def delete(self, obj=None):
+        """
+        Deletes an object from the database.
 
-    #     Args:
-    #         obj (BaseModel, optional):
-    #             The model instance to delete from the database.
-    #     """
-    #     if obj:
-    #         self.__session.delete(obj)
+        Args:
+            obj (BaseModel, optional):
+                The model instance to delete from the database.
+        """
+        if obj:
+            self.__session.delete(obj)
     def close(self):
         """call remove method on the private session attribute"""
         self.__sssion.remove()
