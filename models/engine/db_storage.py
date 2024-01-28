@@ -95,6 +95,7 @@ class DBStorage:
         """
         if obj:
             self.__session.delete(obj)
+
     def close(self):
         """call remove method on the private session attribute"""
         self.__sssion.remove()
