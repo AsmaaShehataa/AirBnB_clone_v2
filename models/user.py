@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """This module defines a class User"""
-from os import getenv
+import os
 from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.review import Review
 from models.place import Place
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class User(BaseModel, Base):

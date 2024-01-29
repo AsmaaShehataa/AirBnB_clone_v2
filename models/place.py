@@ -4,7 +4,9 @@ import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, INTEGER, String, ForeignKey, Table, Float
 from sqlalchemy.orm import declarative_base, relationship  
-from os import getenv 
+import os
+from models import storage
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 place_amenity = Table('place_amenity', Base.metadata,

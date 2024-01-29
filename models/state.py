@@ -3,12 +3,12 @@
 import models
 from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import BaseModel, Base
-from os import getenv
+import os
 from models.city import City
 from models.place import Place
 from sqlalchemy import Integer, String, Column, ForeignKey
 from sqlalchemy.orm import relationship
-
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class State(BaseModel, Base):
